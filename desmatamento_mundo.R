@@ -26,3 +26,21 @@ library(tidyverse)
 desm <- read.csv("annual-deforestation.csv")
 view(desm)
 names(desm)
+
+# Manipular dados --------------------------------------------------------------------------------------------------------------------------
+
+desm1 <- desm %>%
+  select(-Code) %>%
+  filter(Entity %in% c("Brazil", "China",
+                       "Bolivia", "India")) %>%
+  group_by(Entity) %>%
+  summarise(media = mean(Deforestation),
+            sd = sd(Deforestation), n = n(),
+            se = sd/sqrt(n)) %>%
+  view()
+
+# Gráficos ---------------------------------------------------------------------------------------------------------------------------------
+
+ggplot(desm1, aes(x = Entity, y = media)) +
+  geom_col()
+  
