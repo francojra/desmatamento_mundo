@@ -39,6 +39,12 @@ desm1 <- desm %>%
             se = sd/sqrt(n)) %>%
   view()
 
+desm2 <- desm %>%
+  select(-Code) %>%
+  filter(Entity %in% c("China", "Argentina",
+                       "Bolivia", "India", "Brazil")) %>%
+  view()
+
 # Gráficos ---------------------------------------------------------------------------------------------------------------------------------
 
 options(scipen = 999)
@@ -51,4 +57,13 @@ ggplot(desm1, aes(x = fct_reorder(Entity, media), y = media)) +
   coord_flip() +
   labs(x = "Países", y = "Desmatamento médio líquido (hectares)") +
   theme_dark()
+
+ggplot(desm2, aes(x = Year, y = Deforestation, 
+                  group = Entity, color = Entity)) +
+  geom_point(size = 2) +
+  geom_line(size = 1.8) +
+  labs(x = "Tempo (anos)", 
+       y = "Desmatamento médio líquido (hectares)") +
+  theme(legend.position = "none") +
+  theme_get()
   
