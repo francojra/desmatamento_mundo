@@ -45,6 +45,9 @@ options(scipen = 999)
 
 ggplot(desm1, aes(x = fct_reorder(Entity, media), y = media)) +
   geom_col(fill = "black") +
+  geom_errorbar(aes(x = Entity, y = media,
+                    ymin = media - se, ymax = media + se),
+                col = "white", width = 0.3, size = 0.8) +
   coord_flip() +
   labs(x = "Países", y = "Desmatamento médio líquido (hectares)") +
   theme_dark()
