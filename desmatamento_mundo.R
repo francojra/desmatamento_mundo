@@ -22,6 +22,7 @@
 library(tidyverse)
 library(scales)
 library(RColorBrewer)
+library(gridExtra)
 
 # Carregar dados ---------------------------------------------------------------------------------------------------------------------------
 
@@ -56,10 +57,10 @@ g1 <- ggplot(desm1, aes(x = fct_reorder(Entity, media), y = media)) +
   geom_col(fill = "black") +
   geom_errorbar(aes(x = Entity, y = media,
                     ymin = media - se, ymax = media + se),
-                col = "white", width = 0.3, size = 0.8) +
+                col = "red", width = 0.3, size = 0.8) +
   scale_y_continuous(labels = comma) +
   labs(x = "Países", y = "Desmatamento médio líquido (hectares)") +
-  theme_dark()
+  theme_get()
 g1
 
 g2 <- ggplot(desm2, aes(x = Year, y = Deforestation, 
@@ -69,7 +70,10 @@ g2 <- ggplot(desm2, aes(x = Year, y = Deforestation,
   scale_y_continuous(labels = comma) +
   scale_color_brewer(palette = "Dark2") +
   labs(x = "Tempo (anos)", 
-       y = "Desmatamento médio líquido (hectares)") +
-  theme(legend.position = "none") +
-  theme_get()
+       y = "Desmatamento médio líquido (hectares)",
+       col = "Países") +
+  theme_get() +
+  theme(legend.position = "bottom") 
 g2
+
+grid.arrange(g1, g2)
