@@ -2,7 +2,7 @@
 # Desmatamento no mundo --------------------------------------------------------------------------------------------------------------------
 # Autora do script: Jeanne Franco ----------------------------------------------------------------------------------------------------------
 # Data: 25/08/22 ---------------------------------------------------------------------------------------------------------------------------
-# Referência: https://ourworldindata.org/working-hours -------------------------------------------------------------------------------------
+# Referência: https://ourworldindata.org/deforestation -------------------------------------------------------------------------------------
 
 # Sobre os dados ---------------------------------------------------------------------------------------------------------------------------
 
@@ -20,6 +20,8 @@
 # Pacotes necessários para as análises -----------------------------------------------------------------------------------------------------
 
 library(tidyverse)
+library(scales)
+library(RColorBrewer)
 
 # Carregar dados ---------------------------------------------------------------------------------------------------------------------------
 
@@ -41,29 +43,33 @@ desm1 <- desm %>%
 
 desm2 <- desm %>%
   select(-Code) %>%
-  filter(Entity %in% c("China", "Argentina",
-                       "Bolivia", "India", "Brazil")) %>%
+  filter(Entity %in% c("Indonesia", "Tanzania",
+                       "Mozambique", "India",
+                       "Myanmar")) %>%
   view()
 
 # Gráficos ---------------------------------------------------------------------------------------------------------------------------------
 
 options(scipen = 999)
 
-ggplot(desm1, aes(x = fct_reorder(Entity, media), y = media)) +
+g1 <- ggplot(desm1, aes(x = fct_reorder(Entity, media), y = media)) +
   geom_col(fill = "black") +
   geom_errorbar(aes(x = Entity, y = media,
                     ymin = media - se, ymax = media + se),
                 col = "white", width = 0.3, size = 0.8) +
-  coord_flip() +
+  scale_y_continuous(labels = comma) +
   labs(x = "Países", y = "Desmatamento médio líquido (hectares)") +
   theme_dark()
+g1
 
-ggplot(desm2, aes(x = Year, y = Deforestation, 
+g2 <- ggplot(desm2, aes(x = Year, y = Deforestation, 
                   group = Entity, color = Entity)) +
-  geom_point(size = 2) +
+  geom_point(size = 2.9) +
   geom_line(size = 1.8) +
+  scale_y_continuous(labels = comma) +
+  scale_color_brewer(palette = "Dark2") +
   labs(x = "Tempo (anos)", 
        y = "Desmatamento médio líquido (hectares)") +
   theme(legend.position = "none") +
   theme_get()
-  
+g2
