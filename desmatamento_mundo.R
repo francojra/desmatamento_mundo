@@ -53,27 +53,31 @@ desm2 <- desm %>%
 
 options(scipen = 999)
 
-g1 <- ggplot(desm1, aes(x = fct_reorder(Entity, media), y = media)) +
-  geom_col(fill = "black") +
+g1 <- ggplot(desm1, aes(x = fct_reorder(Entity, media), 
+                        y = media, fill = Entity)) +
+  geom_col() +
   geom_errorbar(aes(x = Entity, y = media,
                     ymin = media - se, ymax = media + se),
-                col = "red", width = 0.3, size = 0.8) +
+                 width = 0.3, size = 0.8) +
   scale_y_continuous(labels = comma) +
-  labs(x = "Países", y = "Desmatamento médio líquido (hectares)") +
-  theme_get()
+  scale_fill_brewer(palette = "Dark2") +
+  labs(x = "Países", y = "Área desmatada (hectares)") +
+  theme_get() +
+  theme(legend.position = "none") 
 g1
 
 g2 <- ggplot(desm2, aes(x = Year, y = Deforestation, 
                   group = Entity, color = Entity)) +
   geom_point(size = 2.9) +
-  geom_line(size = 1.8) +
+  geom_line(size = 1.4) +
   scale_y_continuous(labels = comma) +
   scale_color_brewer(palette = "Dark2") +
   labs(x = "Tempo (anos)", 
-       y = "Desmatamento médio líquido (hectares)",
+       y = "Área desmatada (hectares)",
        col = "Países") +
   theme_get() +
-  theme(legend.position = "bottom") 
+  theme(legend.position = c(0.9,0.6),
+        legend.background = element_blank()) 
 g2
 
 grid.arrange(g1, g2)
