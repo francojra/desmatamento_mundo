@@ -31,8 +31,8 @@ names(desm)
 
 desm1 <- desm %>%
   select(-Code) %>%
-  filter(Entity %in% c("Brazil", "China",
-                       "Bolivia", "India")) %>%
+  filter(Entity %in% c("Brazil", "China", "Argentina",
+                       "Bolivia", "India", "Australia")) %>%
   group_by(Entity) %>%
   summarise(media = mean(Deforestation),
             sd = sd(Deforestation), n = n(),
@@ -41,6 +41,11 @@ desm1 <- desm %>%
 
 # Gráficos ---------------------------------------------------------------------------------------------------------------------------------
 
-ggplot(desm1, aes(x = Entity, y = media)) +
-  geom_col()
+options(scipen = 999)
+
+ggplot(desm1, aes(x = fct_reorder(Entity, media), y = media)) +
+  geom_col(fill = "black") +
+  coord_flip() +
+  labs(x = "Países", y = "Desmatamento médio líquido (hectares)") +
+  theme_dark()
   
