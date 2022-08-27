@@ -16,3 +16,13 @@
 
 ### A FAO da ONU estima que 10 milhões de hectares de floresta foram 
 ### abatidos todos os anos.
+
+# Pacotes necessários para as análises -----------------------------------------------------------------------------------------------------
+
+library(tidyverse)
+
+# Carregar dados ---------------------------------------------------------------------------------------------------------------------------
+
+desm <- read.csv("annual-deforestation.csv")
+view(desm)
+names(desm)
